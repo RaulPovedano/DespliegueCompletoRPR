@@ -11,11 +11,11 @@ class RPR_Controller extends AbstractController
  {
  $this->connection = $connection;
  }
- #[Route('/api/db', name: 'get_db')]
+ #[Route('/api/rpr', name: 'get_rpr')]
  public function index(): JsonResponse
  {
  // Consulta para recuperar el primer mensaje de la tabla "messages"
- $sql = 'SELECT frase FROM secretosRPR LIMIT 1';
+ $sql = 'SELECT fraseRPR FROM secretosRPR LIMIT 1';
  $result = $this->connection->fetchOne($sql);
  // Si no hay mensaje en la BD, devolver un mensaje de error
  if (!$result) {
