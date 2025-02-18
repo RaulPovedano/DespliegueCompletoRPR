@@ -37,11 +37,8 @@ services:
     image: mysql:8.0
     ports:
       - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: RPR_BD
-      MYSQL_USER: alumnoDAW
-      MYSQL_PASSWORD: passRPR
+    env_file:
+      - .env
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
       - database_data:/var/lib/mysql
@@ -52,10 +49,10 @@ services:
     image: phpmyadmin/phpmyadmin
     ports:
       - "8080:80"
+    env_file:
+      - .env
     environment:
-      PMA_HOST: RPR_BD
-      PMA_USER: alumnoDAW
-      PMA_PASSWORD: passRPR
+      PMA_HOST: database
     depends_on:
       - database
     networks:
@@ -67,6 +64,9 @@ services:
       dockerfile: DockerfileWebRPR
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - ./web/certs:/etc/nginx/certs
     depends_on:
       - frontend
       - backend
